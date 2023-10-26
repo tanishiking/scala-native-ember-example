@@ -11,9 +11,9 @@ import org.http4s.syntax.all._
 import org.http4s.circe._
 import org.http4s.dsl.request._
 import io.circe._
-import epollcat.EpollApp
+// import epollcat.EpollApp
 import fs2.io.net.Network
-import fs2.io.net.tls.S2nConfig
+// import fs2.io.net.tls.S2nConfig
 import fs2.io.net.tls.TLSContext
 import com.comcast.ip4s._
 import com.google.firestore.v1.firestore.Firestore
@@ -31,7 +31,7 @@ import com.google.firestore.v1.firestore.ListCollectionIdsRequest
 import com.google.firestore.v1.firestore.GetDocumentRequest
 import com.google.firestore.v1.firestore.GetDocumentRequest.ConsistencySelector
 
-object EmberExample extends EpollApp {
+object EmberExample extends IOApp {
 
   final case class Joke(joke: String)
   object Joke {
@@ -42,8 +42,8 @@ object EmberExample extends EpollApp {
 
   def run(args: List[String]): IO[ExitCode] =
     val clients = for {
-      tls <- customTLS
-      tlsClient <- createClient(tls)
+      // tls <- customTLS
+      tlsClient <- createClient()
     } yield tlsClient
 
     clients
@@ -130,20 +130,19 @@ object EmberExample extends EpollApp {
       .expect[Joke](Request(Method.GET, uri"https://icanhazdadjoke.com/"))
       .map(_.joke)
 
-  def createClient(tlsContext: TLSContext[IO]): Resource[IO, Client[IO]] = {
+  def createClient(): Resource[IO, Client[IO]] = {
     EmberClientBuilder
       .default[IO]
-      .withTLSContext(tlsContext)
       .withHttp2
       .build
   }
 
   // TLS 1.3 is not supported without a different default
-  def customTLS =
-    S2nConfig.builder
-      .withCipherPreferences("default_tls13")
-      .build[IO]
-      .map(Network[IO].tlsContext.fromS2nConfig(_))
+  // def customTLS =
+  //   S2nConfig.builder
+  //     .withCipherPreferences("default_tls13")
+  //     .build[IO]
+  //     .map(Network[IO].tlsContext.fromS2nConfig(_))
 
   private def createDocumentName(
       projectId: String,
