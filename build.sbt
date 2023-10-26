@@ -15,6 +15,7 @@ libraryDependencies ++= Seq(
   "org.http4s" %%% "http4s-ember-server" % "0.23.23",
   "org.http4s" %%% "http4s-dsl" % "0.23.23",
   "org.http4s" %%% "http4s-circe" % "0.23.23",
+  "io.chrisdavenport" %%% "http4s-grpc-google-cloud-firestore-v1" % "3.15.2+0.0.6"
 )
 
 val isLinux = Option(System.getProperty("os.name")).exists(_.toLowerCase().contains("linux"))
