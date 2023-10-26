@@ -41,7 +41,7 @@ RUN cd s2n-tls && \
 # WE don't use sbt-docker or sbt-native-packger because we'd like to run nativeLink
 # in the target runtime platform, instead of the host platform.
 COPY . /build
-RUN S2N_LIBRARY_PATH=/build/s2n-tls/s2n-tls-install/lib sbt nativeLink
+RUN S2N_LIBRARY_PATH=/build/s2n-tls/s2n-tls-install/lib sbt -J-Xmx2G nativeLink
 
 FROM gcr.io/distroless/cc
 WORKDIR /app

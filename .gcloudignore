@@ -1,0 +1,12 @@
+.git
+.gitignore
+.dockerignore
+.gcloudignore
+.vscode
+.bsp/
+target/
+.bloop
+.metals
+metals.sbt
+project/project
+
